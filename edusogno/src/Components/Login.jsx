@@ -1,6 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { fetchUsers } from "../utils";
 
 const Login = () => {
+  // const history = useHistory();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      // Fetch users data
+      const users = await fetchUsers();
+
+      // Find user by email
+      console.log(users, "load users");
+      const user = await users.find((user) => user.email === email);
+      console.log(user, "find - one");
+
+      if (!user) {
+        console.log("User not found");
+        return;
+      }
+
+      // Check if password matches
+      if (user.password !== password) {
+        console.log("Invalid password");
+        return;
+      }
+
+      // Redirect based on role
+      if (user.role === "user") {
+        window.location.href = "/user/dashboard";
+      } else if (user.role === "admin") {
+        window.location.href = "/admin/dashboard";
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center h-full gap-y-5 flex-1 w-full md:p-5">
       <h1 className="text-2xl font-bold text-center">Hai già un account?</h1>
@@ -12,6 +50,7 @@ const Login = () => {
               className="w-full outline-none px-3 py-2 border-b-2 border-black"
               type="text"
               placeholder="name@example.com"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="w-full md:space-y-5">
@@ -20,11 +59,15 @@ const Login = () => {
               className="w-full outline-none px-3 py-2 border-b-2 border-black"
               type="password"
               placeholder="Scrivila qui"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className="shadow-xl md:hover:shadow-sm px-3 py-2 text-white font-bold bg-[#0057FF] rounded-full">
+          <a
+            onClick={handleLogin}
+            className="shadow-xl text-center md:hover:shadow-sm px-3 py-2 text-white font-bold bg-[#0057FF] rounded-full"
+          >
             ACCEDI
-          </button>
+          </a>
         </div>
         <div className="mt-10 self-center">
           Non hai ancora un profilo?{" "}

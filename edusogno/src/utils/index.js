@@ -1,22 +1,38 @@
 import axios from "axios";
 
-const updateData = ({ updatedItem, data }) => {
-  // Update the item in memory
-  const updatedData = data.map((item) =>
-    item.id === updatedItem.id ? updatedItem : item
-  );
-  return updatedData;
+// Function to update event data by ID
+const updateEventData = async (eventId, updatedData) => {
+  try {
+    const response = await axios.put(
+      `http://192.168.165.27:3001/Events/${eventId}`,
+      updatedData
+    );
+    if (response && response.status === 200) return response;
+  } catch (error) {
+    console.error("Error updating event data:", error);
+    throw error; // Re-throw the error
+  }
+};
 
-  // Write the updated data back to the JSON file (e.g., via an API call)
-  // Example: fetch('/updateData', { method: 'POST', body: JSON.stringify(updatedData) })
+// fetchdata & fetchusers - could be refactored to use a single code (sake of time made it two )
+const fetchUsers = async () => {
+  try {
+    const response = await axios.get("http://192.168.165.27:3001/Users");
+    if (response.status === 200) {
+      console.log(response.data);
+      if (response.data) return response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 };
 
 const fetchData = async () => {
   try {
-    const response = await axios.get("http://localhost:3001/Events");
+    const response = await axios.get("http://192.168.165.27:3001/Events");
     if (response.status === 200) {
       console.log(response.data);
-      return response.data;
+      if (response.data) return response.data;
     }
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -27,12 +43,12 @@ const fetchData = async () => {
 const deleteEventData = async (eventId) => {
   try {
     const response = await axios.delete(
-      `http://localhost:3001/Events/${eventId}`
+      `http://192.168.165.27:3001/Events/${eventId}`
     );
     if (response && response.status === 200) return response;
   } catch (error) {
     console.error("Error deleting event data:", error);
-    throw error; // Re-throw the error to handle it elsewhere if needed
+    throw error; // Re-throw the error
   }
 };
 const addEventData = async (data) => {
@@ -41,8 +57,14 @@ const addEventData = async (data) => {
     if (response && response.status === 200) return response;
   } catch (error) {
     console.error("Error adding event data:", error);
-    throw error; // Re-throw the error to handle it elsewhere if needed
+    throw error; // Re-throw the error
   }
 };
 
-export { deleteEventData, fetchData, updateData, addEventData };
+export {
+  deleteEventData,
+  updateEventData,
+  fetchData,
+  addEventData,
+  fetchUsers,
+};

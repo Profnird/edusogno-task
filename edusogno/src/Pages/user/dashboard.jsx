@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Topbar from "../Topbar";
-import EventCard from "../EventCard";
+import Topbar from "../../Components/Topbar";
+import EventCard from "../../Components/EventCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import AddEvent from "../AddEvent";
+import AddEvent from "../../Components/AddEvent";
 import { addEventData, deleteEventData, fetchData } from "../../utils";
 
 const Dashboard = () => {
@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   const AsyncFetch = async () => {
     const results = await fetchData();
-    if (results.length > 0) {
+    if (results && results.length > 0) {
       setEventData(results);
     }
   };
@@ -50,7 +50,7 @@ const Dashboard = () => {
         {showAddEvent && (
           <AddEvent onDeleteEvent={handleDelete} onAddEvent={handleAddEvent} />
         )}
-        <div className="grid grid-cols-4 gap-5 px-16 py-8">
+        <div className="grid md:grid-cols-4 gap-5 px-5 md:px-16 py-8">
           {eventData && eventData.length > 0 ? (
             eventData
               .map((event, index) => (
@@ -58,6 +58,7 @@ const Dashboard = () => {
                   onDeleteEvent={handleDelete}
                   key={event.id}
                   event={event}
+                  fetchdata={AsyncFetch}
                 />
               ))
               .reverse()
