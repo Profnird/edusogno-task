@@ -5,7 +5,7 @@
       "firstName": "Marco",
       "lastName": "Rossi",
       "email": "ulysses200915@varen8.com",
-      "password": "Edusogno123",
+      "password": "hello",
       "role": "user",
       "id": "9959"
     },
@@ -35,6 +35,14 @@
       "password": "EdusognoGia",
       "role": "admin",
       "id": "8c2a"
+    },
+    {
+      "id": "f0f9",
+      "firstName": "Kingsley",
+      "lastName": "Amankwa",
+      "email": "profnird@gmail.com",
+      "password": "hello",
+      "role": "user"
     }
   ],
   "Events": [

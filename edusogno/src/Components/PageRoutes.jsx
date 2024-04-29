@@ -15,7 +15,7 @@ const PageRoutes = () => {
         <Route path="/auth/:page" element={<UserAuth />} />
         <Route path="/user/dashboard" element={<Dashboard />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/password/reset" element={<ResetPassword />} />
+        <Route path="/passwordreset" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

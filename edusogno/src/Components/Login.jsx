@@ -77,6 +77,9 @@ const Login = () => {
             Registrati
           </a>
         </div>
+        <a href="/passwordreset" className="text-base text-center text-red-500">
+          Forgot Password?
+        </a>
       </div>
     </div>
   );

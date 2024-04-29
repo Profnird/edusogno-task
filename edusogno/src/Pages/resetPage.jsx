@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { fetchUsers, updateUserData } from "../utils";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);
@@ -9,21 +11,30 @@ const ResetPassword = () => {
 
   const handleResetPassword = async () => {
     try {
-      // Send a request to your backend API to reset the password
-      const response = await fetch("http://localhost:3001/resetPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      // Find the user with the provided email
+      const users = await fetchUsers();
 
-      if (response.ok) {
-        alert("Password reset instructions sent to your email.");
-        setEmail("");
-      } else {
-        throw new Error("Failed to reset password.");
+      const user =
+        users &&
+        users.length > 0 &&
+        (await users.find((user) => user.email === email));
+
+      if (!user) {
+        alert("User not found with the provided email.");
+        return;
       }
+
+      if (!newPassword) {
+        alert("Please enter a new password.");
+        return;
+      }
+
+      // Update the user's password in the database
+      await updateUserData(user.id, { ...user, password: newPassword });
+
+      alert("Password reset successfully.");
+      setEmail("");
+      setNewPassword("");
     } catch (error) {
       console.error("Error resetting password:", error);
       alert("Failed to reset password. Please try again later.");
@@ -40,6 +51,13 @@ const ResetPassword = () => {
           className="w-full border border-gray-300 rounded-md p-2 mb-4"
           value={email}
           onChange={handleInputChange}
+        />
+        <input
+          type="password"
+          placeholder="Enter your new password"
+          className="w-full border border-gray-300 rounded-md p-2 mb-4"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
         />
         <button
           onClick={handleResetPassword}
