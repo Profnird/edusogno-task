@@ -11,7 +11,6 @@ const Login = () => {
     try {
       // Fetch users data
       const users = await fetchUsers();
-
       // Find user by email
       console.log(users, "load users");
       const user = await users.find((user) => user.email === email);
@@ -27,6 +26,9 @@ const Login = () => {
         console.log("Invalid password");
         return;
       }
+
+      // Store user data in local storage upon successful login
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
 
       // Redirect based on role
       if (user.role === "user") {

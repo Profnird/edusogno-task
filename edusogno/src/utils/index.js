@@ -4,7 +4,7 @@ import axios from "axios";
 const updateEventData = async (eventId, updatedData) => {
   try {
     const response = await axios.put(
-      `http://192.168.165.27:3001/Events/${eventId}`,
+      `http://localhost:3001/Events/${eventId}`,
       updatedData
     );
     if (response && response.status === 200) return response;
@@ -17,7 +17,7 @@ const updateEventData = async (eventId, updatedData) => {
 // fetchdata & fetchusers - could be refactored to use a single code (sake of time made it two )
 const fetchUsers = async () => {
   try {
-    const response = await axios.get("http://192.168.165.27:3001/Users");
+    const response = await axios.get("http://localhost:3001/Users");
     if (response.status === 200) {
       console.log(response.data);
       if (response.data) return response.data;
@@ -29,7 +29,7 @@ const fetchUsers = async () => {
 
 const fetchData = async () => {
   try {
-    const response = await axios.get("http://192.168.165.27:3001/Events");
+    const response = await axios.get("http://localhost:3001/Events");
     if (response.status === 200) {
       console.log(response.data);
       if (response.data) return response.data;
@@ -43,7 +43,7 @@ const fetchData = async () => {
 const deleteEventData = async (eventId) => {
   try {
     const response = await axios.delete(
-      `http://192.168.165.27:3001/Events/${eventId}`
+      `http://localhost:3001/Events/${eventId}`
     );
     if (response && response.status === 200) return response;
   } catch (error) {

@@ -9,6 +9,7 @@ import { addEventData, deleteEventData, fetchData } from "../../utils";
 const AdminDashboard = () => {
   const [eventData, setEventData] = useState([]);
   const [showAddEvent, setShowAddEvent] = useState(false);
+  const [adminName, setAdminName] = useState("");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("");
@@ -19,6 +20,7 @@ const AdminDashboard = () => {
     if (loggedInUser && loggedInUser.role === "admin") {
       setIsLoggedIn(true);
       setUserRole(loggedInUser.role);
+      setAdminName(loggedInUser.firstName);
       fetchDataAndUpdateState();
     } else {
       setIsLoggedIn(false);
@@ -70,7 +72,8 @@ const AdminDashboard = () => {
           {/* view events */}
           <div className="flex flex-1 flex-col">
             <h1 className="text-center font-bold text-2xl">
-              Ciao NOME ecco i tuoi eventi
+              Ciao <span className=" text-green-600">{adminName}</span> ecco i
+              tuoi eventi
             </h1>
             {showAddEvent && (
               <AddEvent
