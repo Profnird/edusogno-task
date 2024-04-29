@@ -13,7 +13,12 @@ const AdminDashboard = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("");
-
+  const handleLogout = () => {
+    // Clear user data from local storage
+    localStorage.removeItem("loggedInUser");
+    // Redirect to the login page
+    window.location.href = "/auth/login";
+  };
   useEffect(() => {
     // Check if user is logged in and has admin role
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -68,7 +73,7 @@ const AdminDashboard = () => {
     <>
       {isLoggedIn && userRole === "admin" ? (
         <div className="flex bg-cover bg-edusog-image flex-col bg-[#f2f2f2] h-full flex-1 min-h-screen space-y-10">
-          <Topbar />
+          <Topbar logout={handleLogout} />
           {/* view events */}
           <div className="flex flex-1 flex-col">
             <h1 className="text-center font-bold text-2xl">

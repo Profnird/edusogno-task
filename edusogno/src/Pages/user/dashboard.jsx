@@ -9,7 +9,12 @@ import { addEventData, deleteEventData, fetchData } from "../../utils";
 const Dashboard = () => {
   const [eventData, setEventData] = useState([]);
   const [showAddEvent, setShowAddEvent] = useState(false);
-
+  const handleLogout = () => {
+    // Clear user data from local storage
+    localStorage.removeItem("loggedInUser");
+    // Redirect to the login page
+    window.location.href = "/auth/login";
+  };
   const [UserName, setUserName] = useState("");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,7 +53,6 @@ const Dashboard = () => {
 
   const handleAddEvent = async (newEvent) => {
     try {
-      console.log("dadasd");
       const res = await addEventData(newEvent);
       // After adding event successfully, fetch data again
       AsyncFetch();
@@ -64,18 +68,19 @@ const Dashboard = () => {
       AsyncFetch();
     }
   };
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
   return (
     <>
       {isLoggedIn && userRole === "user" ? (
         <div className="flex bg-cover bg-edusog-image flex-col bg-[#f2f2f2] h-full flex-1 min-h-screen space-y-10">
-          <Topbar />
+          <Topbar logout={handleLogout} />
           {/* view events */}
           <div className="flex flex-1 flex-col">
             <h1 className="text-center font-bold text-2xl">
               Ciao {UserName} ecco i tuoi eventi
             </h1>
-            {showAddEvent && (
+            {loggedInUser.role != "admin" && showAddEvent && (
               <AddEvent
                 onDeleteEvent={handleDelete}
                 onAddEvent={handleAddEvent}
@@ -110,7 +115,7 @@ const Dashboard = () => {
       ) : (
         <div className="flex min-h-screen justify-center items-center">
           <h1 className="flex text-4xl self-center">
-            Access denied! Please login as an admin!
+            Access denied! Please login!
             <FontAwesomeIcon color="red" icon={faFaceAngry} />
           </h1>
         </div>

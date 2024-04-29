@@ -21,6 +21,8 @@ const EventCard = ({ event, onDeleteEvent, fetchdata }) => {
     }
   };
 
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
   return (
     <>
       {showUpdateEvent && (
@@ -41,18 +43,20 @@ const EventCard = ({ event, onDeleteEvent, fetchdata }) => {
             Join
           </a>
         </div>
-        <div className="flex gap-x-4">
-          <FontAwesomeIcon
-            onClick={() => onDeleteEvent(event)}
-            className=" text-red-500"
-            icon={faTrash}
-          />
-          <FontAwesomeIcon
-            onClick={() => setShowUpdateEvent(!showUpdateEvent)}
-            className=" text-green-600"
-            icon={faPencil}
-          />
-        </div>
+        {loggedInUser.role === "admin" && (
+          <div className="flex gap-x-4">
+            <FontAwesomeIcon
+              onClick={() => onDeleteEvent(event)}
+              className=" text-red-500"
+              icon={faTrash}
+            />
+            <FontAwesomeIcon
+              onClick={() => setShowUpdateEvent(!showUpdateEvent)}
+              className=" text-green-600"
+              icon={faPencil}
+            />
+          </div>
+        )}
       </div>
     </>
   );

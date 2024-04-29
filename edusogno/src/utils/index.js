@@ -31,7 +31,7 @@ const fetchData = async () => {
   try {
     const response = await axios.get("http://localhost:3001/Events");
     if (response.status === 200) {
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data) return response.data;
     }
   } catch (error) {
@@ -51,6 +51,7 @@ const deleteEventData = async (eventId) => {
     throw error; // Re-throw the error
   }
 };
+
 const addEventData = async (data) => {
   try {
     const response = await axios.post("http://localhost:3001/Events", data);
