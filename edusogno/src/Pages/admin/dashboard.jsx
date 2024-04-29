@@ -73,7 +73,7 @@ const AdminDashboard = () => {
     <>
       {isLoggedIn && userRole === "admin" ? (
         <div className="flex bg-cover bg-edusog-image flex-col bg-[#f2f2f2] h-full flex-1 min-h-screen space-y-10">
-          <Topbar logout={handleLogout} />
+          <Topbar isLoggedIn={isLoggedIn} logout={handleLogout} />
           {/* view events */}
           <div className="flex flex-1 flex-col">
             <h1 className="text-center font-bold text-2xl">

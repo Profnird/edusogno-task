@@ -74,13 +74,13 @@ const Dashboard = () => {
     <>
       {isLoggedIn && userRole === "user" ? (
         <div className="flex bg-cover bg-edusog-image flex-col bg-[#f2f2f2] h-full flex-1 min-h-screen space-y-10">
-          <Topbar logout={handleLogout} />
+          <Topbar isLoggedIn={isLoggedIn} logout={handleLogout} />
           {/* view events */}
           <div className="flex flex-1 flex-col">
             <h1 className="text-center font-bold text-2xl">
               Ciao {UserName} ecco i tuoi eventi
             </h1>
-            {loggedInUser.role != "admin" && showAddEvent && (
+            {loggedInUser.role === "admin" && showAddEvent && (
               <AddEvent
                 onDeleteEvent={handleDelete}
                 onAddEvent={handleAddEvent}
@@ -103,14 +103,16 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className=" fixed bottom-4 right-4">
-            <div
-              onClick={() => setShowAddEvent(!showAddEvent)}
-              className=" w-12 h-12 hover:rotate-45 cursor-pointer bg-green-500 text-white rounded-full text-xl flex justify-center items-center shadow-md hover:bg-green-600 hover:transform-translate-y-1 hover:shadow-lg transition duration-300 ease-in-out"
-            >
-              <FontAwesomeIcon icon={faPlus} />
+          {loggedInUser.role === "admin" && (
+            <div className=" fixed bottom-4 right-4">
+              <div
+                onClick={() => setShowAddEvent(!showAddEvent)}
+                className=" w-12 h-12 hover:rotate-45 cursor-pointer bg-green-500 text-white rounded-full text-xl flex justify-center items-center shadow-md hover:bg-green-600 hover:transform-translate-y-1 hover:shadow-lg transition duration-300 ease-in-out"
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ) : (
         <div className="flex min-h-screen justify-center items-center">
